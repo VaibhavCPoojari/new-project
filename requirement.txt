@@ -2,4 +2,7 @@ pandas
 numpy
 seaborn
 matplotlib
+ipykernel
+catboost
+xgboost
 -e .
