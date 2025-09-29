@@ -48,8 +48,47 @@ class ModelTrainer:
                 "CatBoosting Regressor": CatBoostRegressor(verbose=False),
                 "AdaBoost Regressor": AdaBoostRegressor()
             }
-
-            models_reports: dict = evaluate_models(x_train, y_train, x_test, y_test, models)
+            params = {
+                "Random Forest": {
+                    'criterion': ['squared_error'],
+                    'max_features': ['sqrt'],
+                    'n_estimators': [16]
+                },
+                "Decision Tree": {
+                    'criterion': ['squared_error'],
+                    'splitter': ['best'],
+                    'max_features': ['sqrt'],
+                },
+                "Gradient Boosting": {
+                    'loss': ['squared_error'],
+                    'learning_rate': [0.1],
+                    'subsample': [0.8],
+                    'criterion': ['squared_error'],
+                    'max_features': ['sqrt'],
+                    'n_estimators': [16]
+                },
+                "Linear Regression": {},
+                "K-Neighbors Regressor": {
+                    'n_neighbors': [3],
+                    'weights': ['uniform'],
+                    'algorithm': ['auto'],
+                    'p': [2]
+                },
+                "XGBRegressor": {
+                    'learning_rate': [0.1],
+                    'n_estimators': [16]
+                },
+                "CatBoosting Regressor": {
+                    'depth': [6],
+                    'learning_rate': [0.1],
+                    'iterations': [30]
+                },
+                "AdaBoost Regressor": {
+                    'learning_rate': [0.1],
+                    'n_estimators': [16]
+                }
+            }
+            models_reports: dict = evaluate_models(x_train, y_train, x_test, y_test, models, params)
             best_model_score = max(models_reports.values())
             best_model_name = [name for name, score in models_reports.items() if score == best_model_score][0]
             best_model = models[best_model_name]
